@@ -1,111 +1,186 @@
-import React from 'react';
-import {
-  Link as ChakraLink,
-  Box,
-  Flex,
-  Text,
-  Button,
-  Stack,
-} from '@chakra-ui/react';
-import Logo from './../logo/logo.component';
-import { HamburgerIcon as MenuIcon, CloseIcon } from '@chakra-ui/icons';
+/* This example requires Tailwind CSS v2.0+ */
+import { Fragment } from 'react';
+import { Disclosure, Menu, Transition } from '@headlessui/react';
+import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { Link } from 'react-router-dom';
-import { Collapse } from '@chakra-ui/transition';
-import { useDisclosure } from '@chakra-ui/hooks';
+import { BellIcon } from '@heroicons/react/solid';
+const navigation = [
+  { name: 'Trang chủ', to: '/', current: true },
+  { name: 'Quản lý CV', to: '/cv', current: false },
+  { name: 'Đăng ký', to: '/signup', current: false },
+  { name: 'Đăng nhập', to: '/signin', current: false },
+];
 
-const NavBar = (props) => {
-  const { isOpen, onToggle } = useDisclosure();
-  return (
-    <NavBarContainer {...props}>
-      <Logo
-        w="100px"
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        color={['white', 'white', 'primary.500', 'primary.500']}
-      />
-      <MenuToggle toggle={onToggle} isOpen={isOpen} />
-      <MenuLinks isOpen={isOpen} />
-    </NavBarContainer>
-  );
-};
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ');
+}
 
-const MenuToggle = ({ toggle, isOpen }) => {
+export default function Navbar() {
   return (
-    <Box display={{ base: 'block', md: 'none' }} onClick={toggle}>
-      {isOpen ? (
-        <CloseIcon width={4} height={4} />
-      ) : (
-        <MenuIcon width={6} height={6} />
+    <Disclosure as="nav" className="bg-white shadow-xl">
+      {({ open }) => (
+        <>
+          <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+            <div className="relative flex items-center justify-between h-16">
+              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                {/* Mobile menu button*/}
+                <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                  <span className="sr-only">Open main menu</span>
+                  {open ? (
+                    <XIcon className="block h-6 w-6" aria-hidden="true" />
+                  ) : (
+                    <MenuIcon className="block h-6 w-6" aria-hidden="true" />
+                  )}
+                </Disclosure.Button>
+              </div>
+              <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+                <Link
+                  to="/"
+                  className="flex-shrink-0 flex items-center cursor-pointer"
+                >
+                  <img
+                    className="block lg:hidden w-8 h-8"
+                    src="icon-1.png"
+                    alt="Workflow"
+                  />
+
+                  <div className="text-3xl font-bold font-mono text-blue-500">
+                    <span className="mr-1 text-gray-400">LD</span>
+                    <span>Job</span>
+                  </div>
+                  <img
+                    className="hidden lg:block h-8 w-8"
+                    src="icon-1.png"
+                    alt="Workflow"
+                  />
+                </Link>
+                <div className="hidden sm:block sm:ml-6">
+                  <div className="flex space-x-4">
+                    {navigation.map((item) => (
+                      <Link
+                        key={item.name}
+                        to={item.to}
+                        className={classNames(
+                          item.current
+                            ? 'text-blue-500 hover:bg-gray-100'
+                            : 'text-gray-700 hover:text-blue-500 hover:bg-gray-100',
+                          'px-3 py-2 rounded-md text-sm font-medium'
+                        )}
+                        aria-current={item.current ? 'page' : undefined}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <button
+                  type="button"
+                  className="bg-gray-100 p-1 rounded-full text-blue-500 hover:text-white hover:bg-blue-500 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-offset-blue-500 focus:ring-white"
+                >
+                  <span className="sr-only">View notifications</span>
+                  <BellIcon className="h-6 w-6 " aria-hidden="true" />
+                </button>
+
+                {/* Profile dropdown */}
+                <Menu as="div" className="ml-3 relative">
+                  <div>
+                    <Menu.Button className="bg-gray-100 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                      <span className="sr-only">Open user menu</span>
+                      <img
+                        className="h-8 w-8 rounded-full"
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        alt=""
+                      />
+                    </Menu.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            to="/"
+                            className={classNames(
+                              active ? 'bg-gray-100' : '',
+                              'block px-4 py-2 text-sm text-gray-700'
+                            )}
+                          >
+                            Your Profile
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            to="/"
+                            className={classNames(
+                              active ? 'bg-gray-100' : '',
+                              'block px-4 py-2 text-sm text-gray-700'
+                            )}
+                          >
+                            Settings
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            to="/"
+                            className={classNames(
+                              active ? 'bg-gray-100' : '',
+                              'block px-4 py-2 text-sm text-gray-700'
+                            )}
+                          >
+                            SignOut
+                          </Link>
+                        )}
+                      </Menu.Item>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+              </div>
+            </div>
+          </div>
+
+          <Disclosure.Panel className="sm:hidden">
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <div className="px-2 pt-2 pb-3 space-y-1">
+                {navigation.map((item) => (
+                  <Disclosure.Button
+                    key={item.name}
+                    as="a"
+                    to={item.to}
+                    className={classNames(
+                      item.current ? 'bg-gray-100' : 'hover:bg-gray-100',
+                      'block px-3 py-2 rounded-md text-base font-medium'
+                    )}
+                    aria-current={item.current ? 'page' : undefined}
+                  >
+                    {item.name}
+                  </Disclosure.Button>
+                ))}
+              </div>
+            </Transition>
+          </Disclosure.Panel>
+        </>
       )}
-    </Box>
+    </Disclosure>
   );
-};
-
-const MenuItem = ({ children, isLast, to = '/', ...rest }) => {
-  return (
-    <ChakraLink as={Link} to={to}>
-      <Text display="block" {...rest}>
-        {children}
-      </Text>
-    </ChakraLink>
-  );
-};
-
-const MenuLinks = ({ isOpen }) => {
-  return (
-    <Box
-      display={{ base: isOpen ? 'block' : 'none', md: 'block' }}
-      flexBasis={{ base: '100%', md: 'auto' }}
-    >
-      <Stack
-        spacing={6}
-        align="center"
-        justify={['center', 'space-between', 'flex-end', 'flex-end']}
-        direction={['column', 'row', 'row', 'row']}
-        pt={[4, 4, 0, 0]}
-      >
-        <MenuItem to="/">Home</MenuItem>
-        <MenuItem to="/cv">Cv </MenuItem>
-        <MenuItem to="/faetures">Features </MenuItem>
-        <MenuItem to="/pricing">Pricing </MenuItem>
-        <MenuItem to="/signup" isLast>
-          <Button
-            size="sm"
-            rounded="md"
-            color={['primary.500', 'primary.500', 'white', 'white']}
-            bg={['white', 'white', 'primary.500', 'primary.500']}
-            _hover={{
-              bg: ['primary.100', 'primary.100', 'primary.600', 'primary.600'],
-            }}
-          >
-            Create Account
-          </Button>
-        </MenuItem>
-      </Stack>
-    </Box>
-  );
-};
-
-const NavBarContainer = ({ children, ...props }) => {
-  return (
-    <Flex
-      as="nav"
-      align="center"
-      justify="space-between"
-      wrap="wrap"
-      w="100%"
-      // mb={8}
-      py={4}
-      px={[4, 8, 16, 24]}
-      boxShadow="lg"
-      bg={['primary.500', 'primary.500', 'transparent', 'transparent']}
-      color={['white', 'white', 'primary.700', 'primary.700']}
-      {...props}
-    >
-      {children}
-    </Flex>
-  );
-};
-
-export default NavBar;
+}

@@ -1,5 +1,6 @@
 module.exports = {
   // purge: [],
+  // mode: 'jit',
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: false, // or 'media' or 'class'
   theme: {
@@ -9,7 +10,7 @@ module.exports = {
     extend: {},
   },
   plugins: [
-    // require('@tailwindcss/forms'),
+    require('@tailwindcss/forms'),
     // require('@tailwindcss/aspect-ratio'),
     // require('@tailwindcss/typography'),
     // require('tailwindcss-children'),

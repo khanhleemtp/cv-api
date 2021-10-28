@@ -27,7 +27,7 @@ const schema = yup
   })
   .required();
 
-export default function HookForm() {
+export default function EditCv() {
   const methods = useForm({
     resolver: yupResolver(schema),
     mode: 'onSubmit',
@@ -59,23 +59,27 @@ export default function HookForm() {
       >
         <input
           name="name"
+          type="text"
+          className="input-rounded"
           placeholder="Lê Đình Khánh"
           {...register('name')}
-          className="my-4 border-2 p-2 rounded-md"
+          // className="my-4 border-2 p-2 rounded-md"
         />
         <input
           name="age"
+          type="text"
           label="age"
           placeholder="12"
           {...register('age')}
-          className="my-4 border-2 p-2 rounded-md"
+          className="input-rounded"
         />
         <input
-          className="my-4 border-2 p-2 rounded-md"
+          type="text"
           name="email"
           label="Email"
           placeholder="khanhleemtp@gmail.com"
           {...register('email')}
+          className="input-rounded"
         />
         <button
           className="text-white bg-blue-300 ring-1 ring-indigo-300 rounded-2xl py-2"
