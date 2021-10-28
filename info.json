@@ -1,0 +1,152 @@
+﻿{
+  "error": false,
+  "data": {
+    "personal": [
+      {
+        "name": "LDK",
+        "profession": "Dev",
+        "email": "khanhleemtp@gmail.com",
+        "images": "https://assets.topdev.vn/Resume/2021/06/20/66711/avatar/41fd96a0-d18d-11eb-90e3-f1bf4a9680a3.png",
+        "phone": "0123456789",
+        "gender": "male",
+        "dateofbirth": "1998-10-08",
+        "provinces_id": "01",
+        "address": "Minh Khai",
+        "linkedin": "abc",
+        "github": "khanhleemtp",
+        "extra_skills": "koko",
+        "province_name": "Thành phố Hà Nội"
+      }
+    ],
+    "summary": [
+      {
+        "summary": null
+      }
+    ],
+    "experiences": [
+      {
+        "company": "ABC",
+        "year_from": "2021-02-15T17:04:41.109Z",
+        "year_to": null,
+        "position": "dev",
+        "experience": "<ul>\n<li>MongoDB</li>\n<li>Rest API</li>\n<li>React</li>\n</ul>",
+        "technical": "NodeJS",
+        "projects": [
+          []
+        ]
+      }
+    ],
+    "skill_groups": [
+      {
+        "group_name": "Web Developer",
+        "skills": [
+          {
+            "skill_id": 22,
+            "skill": "JavaScript",
+            "rating": 4
+          },
+          {
+            "skill_id": 100,
+            "skill": "SEM",
+            "rating": 3.5
+          }
+        ]
+      }
+    ],
+    "educations": [
+      {
+        "schoolname": "Đại Học Bách Khoa Hà Nội",
+        "year_from": "2018-02-15T16:00:39.275Z",
+        "year_to": null,
+        "degree": "IT",
+        "description": "<p>No info</p>"
+      }
+    ],
+    "projects": [
+      {
+        "project": "IOT",
+        "project_time": "8 tháng từ thời gian abc",
+        "description": "<ol>\n<li>IOT</li>\n<li>CDE</li>\n</ol>"
+      }
+    ],
+    "interests": [
+      {
+        "interest": "Game"
+      },
+      {
+        "interest": "Music"
+      }
+    ],
+    "activities": [
+      {
+        "activity": "Từ thiện",
+        "date_from": "2021-01-15T17:08:08.295Z",
+        "date_to": null,
+        "achievement": "<ul>\n<li>K&ecirc;u gọi sao k&ecirc;</li>\n</ul>"
+      }
+    ],
+    "languages": [
+      {
+        "language": "English",
+        "fluency": "Beginner"
+      },
+      {
+        "language": "Japan",
+        "fluency": "Beginner"
+      }
+    ],
+    "references": [
+      {
+        "refer_name": "Abc",
+        "refer_profession": "Dev",
+        "refer_email": "abc@gmail.com",
+        "refer_phone": "111111111"
+      }
+    ],
+    "certificates": [
+      {
+        "name": "500 toic",
+        "date_completed": "2021-02-15T17:09:10.111Z",
+        "description": "<ul>\n<li>abc</li>\n<li>def</li>\n</ul>"
+      }
+    ],
+    "additionals": [
+      {
+        "additional": "No info",
+        "description": "<ul>\n<li>abc</li>\n<li>def</li>\n</ul>"
+      }
+    ],
+    "id": "41fd96a0-d18d-11eb-90e3-f1bf4a9680a3",
+    "sectionsOrder": [
+      "projects",
+      "interests",
+      "activities",
+      "languages",
+      "references",
+      "certificates",
+      "additionals"
+    ],
+    "progress": {
+      "value": 80,
+      "section": [
+        "personal",
+        "experiences",
+        "skill_groups",
+        "educations"
+      ],
+      "date_completed": null
+    },
+    "experience_type": 0,
+    "name_resume": "LD CV",
+    "meta": {
+      "name": "LD CV",
+      "lang": "vi",
+      "theme": "template1",
+      "color": "#2ccce4"
+    },
+    "lang": "vi",
+    "template_name": "template1",
+    "updated_at": "2021-10-16 00:09:34"
+  },
+  "messages": "success"
+}

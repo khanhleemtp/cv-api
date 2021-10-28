@@ -1,0 +1,26 @@
+﻿{
+  "error": false,
+  "data": [
+    {
+      "index": "1",
+      "name": "template1"
+    },
+    {
+      "index": "2",
+      "name": "template2"
+    },
+    {
+      "index": "3",
+      "name": "template3"
+    },
+    {
+      "index": "4",
+      "name": "template4"
+    },
+    {
+      "index": "5",
+      "name": "template5"
+    }
+  ],
+  "message": null
+}
