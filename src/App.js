@@ -8,14 +8,16 @@ function App() {
     <div className="min-h-screen flex flex-col">
       <Router>
         <Navbar />
-        <Switch>
-          <Route exact path="/">
-            <Homepage />
-          </Route>
-          <Route path="/cv">
-            <CvEditorPage />
-          </Route>
-        </Switch>
+        <div className="mt-16 h-full flex-grow flex flex-col">
+          <Switch>
+            <Route exact path="/">
+              <Homepage />
+            </Route>
+            <Route path="/cv">
+              <CvEditorPage />
+            </Route>
+          </Switch>
+        </div>
       </Router>
     </div>
   );
