@@ -152,7 +152,7 @@ export default function Navbar() {
                     {/* Profile dropdown */}
                     <Menu as="div" className="ml-3 relative">
                       <div>
-                        <Menu.Button className="bg-gray-100 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                        <Menu.Button className="bg-gray-100 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-white">
                           <span className="sr-only">Open user menu</span>
                           <img
                             className="h-8 w-8 rounded-full"
@@ -210,10 +210,14 @@ export default function Navbar() {
                   <Disclosure.Button
                     key={item.name}
                     className={classNames(
-                      item.current ? 'bg-gray-100' : 'hover:bg-gray-100',
+                      location.pathname === item.to
+                        ? 'bg-gray-100'
+                        : 'hover:bg-gray-100',
                       'block px-3 py-2 rounded-md text-base font-medium w-full'
                     )}
-                    aria-current={item.current ? 'page' : undefined}
+                    aria-current={
+                      location.pathname === item.to ? 'page' : undefined
+                    }
                   >
                     <HoverDropdown
                       button={item.name}
