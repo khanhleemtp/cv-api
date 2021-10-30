@@ -11,6 +11,8 @@ module.exports = {
     extend: {
       display: ['group-hover'],
       ringColor: ['hover', 'active'],
+      ringOffsetColor: ['hover', 'active'],
+      borderWidth: ['last'],
     },
   },
   plugins: [
