@@ -1,3 +1,4 @@
+const plugin = require('tailwindcss/plugin');
 module.exports = {
   // purge: [],
   // mode: 'jit',
@@ -9,6 +10,7 @@ module.exports = {
   variants: {
     extend: {
       display: ['group-hover'],
+      ringColor: ['hover', 'active'],
     },
   },
   plugins: [
@@ -16,5 +18,13 @@ module.exports = {
     // require('@tailwindcss/aspect-ratio'),
     // require('@tailwindcss/typography'),
     // require('tailwindcss-children'),
+    plugin(function ({ addUtilities }) {
+      const newUtilities = {
+        ' .no-scrollbar::-webkit-scrollbar': {
+          display: 'none',
+        },
+      };
+      addUtilities(newUtilities);
+    }),
   ],
 };

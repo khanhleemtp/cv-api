@@ -9,7 +9,7 @@ const HoverDropdown = ({
   isActive = false,
 }) => {
   return (
-    <div className="group inline-block relative">
+    <div className="group inline-block relative cursor-pointer">
       <div
         className={clsx(
           'font-semibold py-2 px-4 rounded inline-flex items-center group-hover:text-blue-500',

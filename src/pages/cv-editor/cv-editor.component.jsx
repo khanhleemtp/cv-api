@@ -2,13 +2,14 @@ import Form from './../../components/form/form';
 import CvPreview from '../../components/cv-preview/cv-preview.component';
 import Tilt from 'react-tilt';
 import { Tab } from '@headlessui/react';
-import { Fragment } from 'react';
 import clsx from 'clsx';
+import TitlImage from './../../components/tilt-image/tilt-image.component';
+import TemplatePreview from '../../components/template-preview/template-preview.component';
 const CvEditorPage = () => {
   return (
     <div className="flex bg-white h-full flex-grow p-4">
       <div
-        className="fixed top-16 left-0 h-screen w-full max-w-sm m-0 pt-4
+        className="fixed top-16 left-0 h-screen w-full max-w-sm m-0
                     hidden md:flex flex-col 
                     bg-white shadow-lg"
       >
@@ -17,7 +18,7 @@ const CvEditorPage = () => {
             {['Template', 'Styles', 'Sections'].map((item) => (
               <Tab key={item} as="div" className="flex-grow flex">
                 {({ selected }) => (
-                  <button className="bg-white text-black flex-grow flex flex-col items-center hover:bg-gray-100 pt-3">
+                  <button className="bg-white text-black flex-grow flex flex-col items-center hover:bg-gray-100 pt-3 font-semibold">
                     <div className="flex-grow">{item}</div>
                     <div
                       className={clsx(
@@ -32,8 +33,15 @@ const CvEditorPage = () => {
 
             {/* ...  */}
           </Tab.List>
-          <Tab.Panels>
-            <Tab.Panel>Content 1</Tab.Panel>
+          <Tab.Panels
+            className=" overflow-y-scroll
+                      no-scrollbar pb-28 px-6 pt-4 mx-auto"
+          >
+            <Tab.Panel className="grid grid-cols-2 gap-4">
+              {[1, 2, 3, 4, 5, 6, 7, 8]?.map((item) => (
+                <TemplatePreview key={item} />
+              ))}
+            </Tab.Panel>
             <Tab.Panel>Content 2</Tab.Panel>
             <Tab.Panel>Content 3</Tab.Panel>
             {/* ... */}
@@ -42,17 +50,7 @@ const CvEditorPage = () => {
       </div>
       <div className="ml-0 md:ml-96">
         <Form />
-        <Tilt
-          className="Tilt cursor-pointer"
-          options={{ max: 25 }}
-          style={{ height: 297 * 0.7, width: 210 * 0.7 }}
-        >
-          <img
-            src="/assets/cv1.png"
-            alt="cv"
-            className="w-full h-full Tilt-inner"
-          />
-        </Tilt>
+        <TitlImage />
         {/* <CvPreview /> */}
       </div>
     </div>
