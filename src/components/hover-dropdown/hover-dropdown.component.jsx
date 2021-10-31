@@ -19,7 +19,7 @@ const HoverDropdown = ({
         <span className="mr-1">{button}</span>
         <ChevronDownIcon className="h-4 w-4" />
       </div>
-      <ul className="absolute hidden text-gray-600 pt-2 group-hover:block rounded-sm shadow-xl border-1 z-50">
+      <ul className="absolute hidden text-gray-600 pt-2 group-hover:block rounded-sm shadow-xl border-1 z-10">
         {links?.map((link) => (
           <li
             className="flex flex-col bg-white whitespace-no-wrap"

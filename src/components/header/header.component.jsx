@@ -80,7 +80,7 @@ export default function Navbar() {
   return (
     <Disclosure
       as="nav"
-      className="bg-white shadow-xl fixed top-0 left-0 h-16 right-0 z-40"
+      className="bg-white shadow-xl fixed top-0 left-0 h-16 right-0 z-10"
     >
       {({ open }) => (
         <>
