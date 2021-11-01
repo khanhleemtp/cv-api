@@ -16,7 +16,7 @@ const CvSettings = () => {
                 <div className="flex-grow">{item}</div>
                 <div
                   className={clsx(
-                    'border-b-4 rounded-lg border-blue-500 w-0 transition-all duration-100 ease-in-out',
+                    'border-b-4 rounded-lg border-blue-500 w-0 transition-all duration-75 ease-linear',
                     { 'w-full': selected }
                   )}
                 ></div>
