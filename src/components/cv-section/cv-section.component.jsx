@@ -1,25 +1,57 @@
-import React from 'react';
-import { PencilAltIcon } from '@heroicons/react/outline';
+import React, { useState } from 'react';
+import { PencilAltIcon, PlusIcon } from '@heroicons/react/outline';
+import clsx from 'clsx';
+import CvForm from '../cv-form/cv-form.component';
 
-const CvSection = () => {
+const CvSection = ({
+  fields = [],
+  icon = true,
+  addField = '',
+  direction = 'flex-col',
+  title = '',
+}) => {
+  const [activeForm, setActiveForm] = useState(false);
+
   return (
-    <div className="px-4 py-8 md:px-12 md:py-16 shadow-lg bg-white max-w-4xl">
-      <div className="flex items-center justify-between hover:bg-gray-100 border-b-2 rounded-md py-2 text-blue-400 cursor-pointer">
-        <div className="font-bold text-4xl">Le Dinh Khanh</div>
-        <PencilAltIcon className="w-6 h-6 text-blue-500" />
-      </div>
-      <div className="flex justify-between hover:bg-gray-100 cursor-pointer rounded-md py-2 my-2">
-        <div className="flex flex-col ">
-          <div className="p-2 m-1 mx-2 rounded-md bg-yellow-200">Location</div>
-          <div className="p-2 m-1 mx-2 rounded-md bg-yellow-200">
-            Phone number
-          </div>
-          <div className="p-2 m-1 mx-2 rounded-md bg-yellow-200">
-            Email address
-          </div>
+    <div>
+      {title && (
+        <div className="border-t-2 border-b-2 text-center uppercase text-xl text-blue-500 py-2 my-4 font-semibold">
+          {title}
         </div>
-        <PencilAltIcon className="w-6 h-6 text-blue-500" />
-      </div>
+      )}
+      {activeForm && (
+        <CvForm activeForm={activeForm} setActiveForm={setActiveForm} />
+      )}
+      {!activeForm && (
+        <div
+          className="flex justify-between hover:bg-gray-100 cursor-pointer rounded-md py-2"
+          onClick={() => setActiveForm(true)}
+        >
+          <div className={`flex ${direction}`}>
+            {fields?.map((field) => (
+              <div
+                className="p-2 m-1 rounded-md bg-yellow-100 hover:bg-yellow-200"
+                key={field}
+              >
+                {field}
+              </div>
+            ))}
+          </div>
+          <PencilAltIcon
+            className={clsx('w-6 h-6 text-blue-500', { hidden: !icon })}
+          />
+        </div>
+      )}
+
+      <button
+        className={clsx(
+          'mx-2 my-6 font-bold text-blue-500 hover:text-blue-400 inline-flex items-center',
+          { hidden: !addField }
+        )}
+      >
+        <PlusIcon className="w-4 h-4 mr-1" />
+        {addField}
+      </button>
     </div>
   );
 };

@@ -85,7 +85,7 @@ const CvSettings = () => {
                 { 'Professtional Summary': true },
               ]?.map((item) => (
                 <div
-                  className="border-t-2 px-2 py-2 bg-gray-100 flex cursor-not-allowed"
+                  className="border-t-2 px-2 py-2 bg-gray-100 flex cursor-not-allowed text-left"
                   key={Object.getOwnPropertyNames(item)}
                 >
                   <div className="flex-grow ml-2">

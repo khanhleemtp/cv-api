@@ -10,7 +10,7 @@ function DialogApp({ open = false, setOpen = () => {} }) {
     <Transition.Root show={open} as={Fragment}>
       <Dialog
         as="div"
-        className="fixed z-10 inset-0 overflow-y-auto md:hidden"
+        className="fixed z-10 inset-0 md:hidden"
         initialFocus={settingsRef}
         onClose={setOpen}
       >
@@ -29,7 +29,7 @@ function DialogApp({ open = false, setOpen = () => {} }) {
 
           <Transition.Child>
             <button
-              className="fixed right-0 top-2 bg-white text-blue-500 font-medium hover:bg-gray-100 px-4 py-2 rounded-full"
+              className="fixed right-0 z-10 top-2 bg-white text-blue-500 font-medium hover:bg-gray-100 px-4 py-2 rounded-full"
               onClick={() => setOpen(false)}
             >
               Close
@@ -51,11 +51,9 @@ function DialogApp({ open = false, setOpen = () => {} }) {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="flex h-full flex-grow">
+            <div className="inline-block min-h-screen max-h-screen overflow-hidden flex-grow transition-all transform relative w-full">
               <div
-                className="fixed top-16 left-0 h-screen w-full
-                     flex flex-col 
-                    bg-white shadow-lg"
+                className="absolute top-16 left-0 h-full w-full flex flex-col bg-white shadow-lg"
                 ref={settingsRef}
               >
                 <CvSettings />
