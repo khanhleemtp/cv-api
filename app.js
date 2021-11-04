@@ -13,11 +13,8 @@ app.options('*', cors());
 
 // if (process.env.NODE_ENV === 'production') {
 // }
-app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/', (req, res) => {
   res.json({
@@ -32,5 +29,9 @@ app.all('*', (req, res, next) => {
 });
 
 app.use(globalErrorHandler);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 
 module.exports = app;
