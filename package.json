@@ -2,7 +2,7 @@
   "name": "ld-cv",
   "version": "1.0.0",
   "description": "CV for every_one",
-  "main": "server.js",
+  "main": "index.js",
   "author": "LD Khanh",
   "license": "MIT",
   "dependencies": {
