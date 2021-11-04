@@ -40,9 +40,9 @@
     "prettier": "^2.2.1"
   },
   "scripts": {
-    "heroku-postbuild": "cd ../client && yarn install && yarn install --only=dev --no-shrinkwrap && yarn run build",
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && yarn install && yarn install --only=dev --no-shrinkwrap && yarn run build",
     "start:prod": "set NODE_ENV=production & nodemon server.js",
-    "start": "nodemon server.js",
     "debug": "ndb server.js"
   },
   "engines": {
