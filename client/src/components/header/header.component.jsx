@@ -36,8 +36,12 @@ const navigation = [
     to: '/cv',
     child: [
       {
-        name: 'Mẫu CV',
+        name: 'Builder',
         to: '/cv',
+      },
+      {
+        name: 'Mẫu CV',
+        to: '/preview',
       },
     ],
   },

@@ -8,23 +8,13 @@ import {
   View,
 } from '@react-pdf/renderer';
 import robotoNormal from '../../../fonts/Roboto-Regular.ttf';
-import CvProfile from '../../cv-profile/cv-profile.component';
 import CvTitle from '../../cv-title/cv-title.component';
+import CvProfile from './../../cv-pdf-profile/cv-pdf-profile.component';
 
 const CvTemplateOne = () => {
-  // const name = useWatch({
-  //   control,
-  //   name: 'name', // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
-  //   defaultValue: 'ld', // default value before the render
-  // });
-  // console.log(name);
-
   return (
     <Document title="LD-CV" author="LDK">
       <Page style={styles.container} size="A4">
-        {/* <Text style={styles.header} fixed>
-          ~ Created with react-pdf ~
-        </Text> */}
         <View style={styles.row}>
           <View style={styles.col}>
             <CvProfile />

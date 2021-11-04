@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import CvEditorPage from './pages/cv-editor/cv-editor.component';
 import Homepage from './pages/homepage/homepage.component';
 import Navbar from './components/header/header.component';
+import CvPreview from './components/cv-preview/cv-preview.component';
 
 function App() {
   return (
@@ -15,6 +16,9 @@ function App() {
             </Route>
             <Route path="/cv">
               <CvEditorPage />
+            </Route>
+            <Route path="/preview">
+              <CvPreview />
             </Route>
           </Switch>
         </div>

@@ -1,10 +1,10 @@
-import CvTemplate from './../cv-template/cv.component';
 import PDFViewer from './../pdf-preview/pdf-preview.component';
+import CvTemplateOne from './../cv-template/cv-template-one/cv-template-one';
 
 const CvPreview = () => {
   return (
     <PDFViewer>
-      <CvTemplate />
+      <CvTemplateOne />
     </PDFViewer>
   );
 };
