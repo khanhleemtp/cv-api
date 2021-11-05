@@ -1,4 +1,4 @@
-node_modules/
-config.env
-.vscode
-client/build
+/node_modules
+npm-debug.log
+.DS_Store
+/*.env
