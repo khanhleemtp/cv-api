@@ -11,11 +11,6 @@ app.use(express.json());
 app.enable('trust proxy');
 app.options('*', cors());
 
-// if (process.env.NODE_ENV === 'production') {
-// }
-
-app.use(express.static(path.join(__dirname, 'client/build')));
-
 app.get('/', (req, res) => {
   res.json({
     message: 'OK',
@@ -23,10 +18,6 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/users', require('./routes/userRoutes'));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
