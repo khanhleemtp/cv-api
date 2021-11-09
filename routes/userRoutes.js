@@ -6,14 +6,17 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
+// TODO PUBLIC_ROUTE
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
-router.post('/forgotPassword', authController.forgotPassword);
-router.patch('/resetPassword/:token', authController.resetPassword);
+router.post('/forgot-password', authController.forgotPassword);
+router.patch('/reset-password/:token', authController.resetPassword);
+router.post('/verify', authController.sendVerifiedToken);
+router.get('/verify/:token', authController.verifiedToken);
 
-// protect all routes afer middleware  ✈
+// TODO PRIVATE_ROUTE
+// protect all routes afer middleware
 router.use(authController.protect);
-
 router.patch('/updateMyPassword', authController.updatePassword);
 
 // merge route
@@ -28,6 +31,7 @@ router.get(
 router.patch('/updateMe', userController.updateMe);
 router.delete('/deleteMe', userController.deleteMe);
 
+// TODO ADMIN_ROUTE
 // only admin to access
 router.use(authController.restrictTo('admin'));
 

@@ -1,39 +1,42 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
+const createToken = require('../utils/createToken');
 
 const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Please tell us your name'],
+      required: [true, 'Vui lòng cho chúng tôi biết tên của bạn'],
     },
     email: {
       type: String,
-      required: [true, 'Please provide your email address'],
+      required: [true, 'Vui lòng cung cấp địa chỉ email của bạn'],
       unique: true,
       lowercase: true,
-      validate: [validator.isEmail, 'Please provide valid  your emmail'],
+      validate: [validator.isEmail, 'Vui lòng cung cấp email hợp lệ của bạn'],
     },
+    imageUrl: String,
     password: {
       type: String,
-      required: [true, 'Please provide your password'],
-      minlength: [4, 'Password must be at least 4 characters'],
+      required: [true, 'Vui lòng cung cấp mật khẩu của bạn'],
+      minlength: [4, 'Mật khẩu phải có ít nhất 4 ký tự'],
       select: false,
     },
     role: {
       type: String,
-      enum: ['user', 'hr', 'company', 'admin'],
+      enum: ['user', 'company', 'admin'],
       default: 'user',
     },
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,
-    active: {
+    verify: {
       type: Boolean,
-      default: true,
+      default: false,
     },
+    verifiedToken: String,
+    verifiedTokenExpires: Date,
   },
   {
     toJSON: { virtuals: true },
@@ -99,14 +102,19 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
 };
 
 userSchema.methods.createPasswordResetToken = function () {
-  const resetToken = crypto.randomBytes(32).toString('hex');
-  // sendt to user
-  this.passwordResetToken = crypto
-    .createHash('sha256')
-    .update(resetToken)
-    .digest('hex');
+  // send to user
+  const resetToken = createToken();
+  this.passwordResetToken = resetToken;
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
   return resetToken;
+};
+
+userSchema.methods.createVerifiedToken = function () {
+  // sendt to user
+  const verifiedToken = createToken();
+  this.verifiedToken = verifiedToken;
+  this.verifiedTokenExpires = Date.now() + 10 * 60 * 1000;
+  return verifiedToken;
 };
 
 const User = mongoose.model('User', userSchema);
