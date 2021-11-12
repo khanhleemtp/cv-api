@@ -1,13 +1,12 @@
 const APIFeatures = require('../utils/apiFeatures');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
-const _ = require('lodash');
 
 exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
     if (!doc) {
-      return next(new AppError('No document found with that ID 💺 ', 404));
+      return next(new AppError('Không tìm thấy tài liệu nào có ID đó', 404));
     }
 
     res.status(204).json({
@@ -18,9 +17,7 @@ exports.deleteOne = (Model) =>
 
 exports.updateOne = (Model, pickArr) =>
   catchAsync(async (req, res, next) => {
-    const pickData = pickArr ? _.pick(req.body, pickArr) : req.body;
-
-    const doc = await Model.findByIdAndUpdate(req.params.id, pickData, {
+    const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       // return newDocument
       runValidators: true,
@@ -28,7 +25,7 @@ exports.updateOne = (Model, pickArr) =>
     });
 
     if (!doc) {
-      return next(new AppError('No document found with that ID 👾 ', 404));
+      return next(new AppError('Không tìm thấy tài liệu nào có ID đó', 404));
     }
 
     res.status(200).json({
@@ -41,9 +38,7 @@ exports.createOne = (Model, pickArr) =>
   catchAsync(async (req, res) => {
     // const newTour = new Tour({});
     // newTour.save()
-    const pickData = pickArr ? _.pick(req.body, pickArr) : req.body;
-    console.log(pickData);
-    const doc = await Model.create(pickData);
+    const doc = await Model.create(req.body);
     // Tour.findOne({ _id: req.params.id })
 
     res.status(201).json({
@@ -58,7 +53,7 @@ exports.getOne = (Model, popOptions) =>
     if (popOptions) query = query.populate(popOptions);
     const doc = await query;
     if (!doc) {
-      return next(new AppError('No document with that ID 💺 ', 404));
+      return next(new AppError('Không tìm thấy tài liệu nào có ID đó', 404));
     }
     res.status(200).json({
       status: 'success',

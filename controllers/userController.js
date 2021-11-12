@@ -18,7 +18,7 @@ exports.getMe = (req, res, next) => {
 
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 1. Create error if user POST password data
-  if (req.body.password || req.body.passwordConfirm) {
+  if (req.body.password) {
     return next(
       new AppError(
         'This route is not for password update, please use /updateMyPassword'
@@ -47,7 +47,6 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
-  await User.findByIdAndUpdate(req.user.id, { active: false });
   res.status(204).json({
     status: 'success',
     data: null,

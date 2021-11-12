@@ -3,7 +3,7 @@ const { promisify } = require('util');
 const User = require('../models/UserModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
-const sendEmail = require('../utils/email');
+const Email = require('../utils/email');
 
 // TODO SIGN_TOKEN
 const signToken = (id) => {
@@ -53,6 +53,10 @@ exports.signup = catchAsync(async (req, res, next) => {
     email: req.body.email,
     password: req.body.password,
   });
+
+  const url = `${req.protocol}://${req.get('host')}/me`;
+
+  await new Email(newUser, url).sendWelcome();
 
   createSendToken(newUser, 201, res);
 });
@@ -145,19 +149,22 @@ exports.sendVerifiedToken = catchAsync(async (req, res, next) => {
   const verifyURL = `${req.protocol}://${req.get(
     'host'
   )}/api/v1/users/verify/${verifiedToken}`;
-
-  const message = `Vui lòng ấn vào đường dẫn để xác thực tài khoản: ${verifyURL}. \n`;
+  console.log(verifyURL);
+  // const message = `Vui lòng ấn vào đường dẫn để xác thực tài khoản: ${verifyURL}. \n`;
   try {
-    await sendEmail({
-      email: user.email,
-      subject: 'Xác minh mã thông báo đặt lại (có giá trị trong 10 phút)',
-      message,
-    });
+    // await sendEmail({
+    //   email: user.email,
+    //   subject: 'Xác minh mã thông báo đặt lại (có giá trị trong 10 phút)',
+    //   message,
+    // });
+    await new Email(user, verifyURL).sendVerifiedToken();
+
     res.status(200).json({
       status: 'success',
       message: 'Mã xác thực đã được gửi đến email',
     });
   } catch (error) {
+    console.log(error);
     user.verifiedToken = undefined;
     user.verifiedTokenExpires = undefined;
     await user.save();
@@ -220,12 +227,15 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   const message = `Gửi yêu cầu mật khẩu mới tới ${resetURL}. \n Nếu bạn không quên mật khẩu của mình, vui lòng bỏ qua email`;
   try {
-    await sendEmail({
-      email: user.email,
-      subject:
-        'Mã thông báo đặt lại mật khẩu của bạn (có giá trị trong 10 phút)',
-      message,
-    });
+    // await sendEmail({
+    //   email: user.email,
+    //   subject:
+    //     'Mã thông báo đặt lại mật khẩu của bạn (có giá trị trong 10 phút)',
+    //   message,
+    // });
+
+    await new Email(user, verifyURL).sendPasswordReset();
+
     res
       .status(200)
       .json({ status: 'success', message: 'Yêu cầu đã được gửi tới email' });
