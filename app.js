@@ -1,15 +1,69 @@
+// libray external
 const express = require('express');
-const path = require('path');
 const cors = require('cors');
+const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
+const hpp = require('hpp');
+const compression = require('compression');
+
+// internal
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/errorController');
+const { profileImage } = require('./utils/upload');
+const catchAsync = require('./utils/catchAsync');
 
 // Start express app
 const app = express();
 
-app.use(express.json());
+// Implement CORS
 app.enable('trust proxy');
+// Access-Control-Allow-Origin *
+// api.ld.com, front-end ld.com
+// app.use(cors({
+//   origin: 'https://www.ldcv.com'
+// }))
+
 app.options('*', cors());
+// app.options('/api/v1/users/:id', cors());
+
+// Set security HTTP headers
+app.use(helmet());
+
+// Development logging
+app.use(morgan('dev'));
+
+// Limit requests from same API
+const limiter = rateLimit({
+  max: 1000,
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many requests from this IP, please try again in an hour!',
+});
+
+app.use('/api', limiter);
+
+// Body parser, reading data from body into req.body
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+// app.use(cookieParser());
+
+// Data sanitization against NoSQL query injection
+app.use(mongoSanitize());
+
+// Data sanitization against XSS
+app.use(xss());
+
+// Prevent parameter pollution
+app.use(
+  hpp({
+    whitelist: [],
+  })
+);
+
+// HPP Helpfull
+app.use(compression());
 
 app.get('/', (req, res) => {
   res.json({
@@ -18,6 +72,18 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/users', require('./routes/userRoutes'));
+app.use('/api/v1/resumes', require('./routes/resumeRoutes'));
+app.post(
+  '/api/v1/upload',
+  profileImage.single('profileImage'),
+  (req, res, err) => {
+    try {
+      return res.send(req.file);
+    } catch (err) {
+      return res.send(400);
+    }
+  }
+);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
