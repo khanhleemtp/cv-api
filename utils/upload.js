@@ -18,14 +18,14 @@ const fileFilter = (req, file, cb) => {
 };
 
 // this is just to test locally if multer is working fine.
-const storage = multer.diskStorage({
-  destination: (req, res, cb) => {
-    cb(null, 'src/api/media/profiles');
-  },
-  filename: (req, file, cb) => {
-    cb(null, new Date().toISOString() + '-' + file.originalname);
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: (req, res, cb) => {
+//     cb(null, 'src/api/media/profiles');
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, new Date().toISOString() + '-' + file.originalname);
+//   },
+// });
 
 const multerS3Config = multerS3({
   s3: s3Config,
