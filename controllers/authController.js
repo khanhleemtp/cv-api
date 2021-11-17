@@ -98,7 +98,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // 3. Check if user still exists
   const currentUser = await User.findById(decoded.id).select(
-    '+passwordChangedAt'
+    '-passwordChangedAt'
   );
 
   if (!currentUser) {

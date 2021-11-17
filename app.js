@@ -13,7 +13,6 @@ const compression = require('compression');
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/errorController');
 const { profileImage } = require('./utils/upload');
-const catchAsync = require('./utils/catchAsync');
 
 // Start express app
 const app = express();
@@ -22,22 +21,8 @@ const app = express();
 app.enable('trust proxy');
 // Access-Control-Allow-Origin *
 // api.ld.com, front-end ld.com
-const allowList = [
-  'http://ld-datn-client.s3-website-ap-southeast-1.amazonaws.com',
-  'http://localhost:3000',
-];
 
-var corsOptionsDelegate = function (req, callback) {
-  let corsOptions;
-  if (allowList.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
-  } else {
-    corsOptions = { origin: false }; // disable CORS for this request
-  }
-  callback(null, corsOptions); // callback expects two parameters: error and options
-};
-
-app.use(cors(corsOptionsDelegate));
+app.use(cors());
 
 app.options('*', cors());
 // app.options('/api/v1/users/:id', cors());
@@ -78,7 +63,7 @@ app.use(
 // HPP Helpfull
 app.use(compression());
 
-app.get('/api/v1', (req, res) => {
+app.get('/', (req, res) => {
   res.status(200).json({
     message: 'OK',
   });
