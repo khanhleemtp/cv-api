@@ -22,9 +22,11 @@ const app = express();
 app.enable('trust proxy');
 // Access-Control-Allow-Origin *
 // api.ld.com, front-end ld.com
-// app.use(cors({
-//   origin: 'https://www.ldcv.com'
-// }))
+app.use(
+  cors({
+    origin: '*',
+  })
+);
 
 app.options('*', cors());
 // app.options('/api/v1/users/:id', cors());
@@ -65,14 +67,17 @@ app.use(
 // HPP Helpfull
 app.use(compression());
 
-app.get('/', (req, res) => {
-  res.json({
+app.get('/api/v1', (req, res) => {
+  res.status(200).json({
     message: 'OK',
   });
 });
 
 app.use('/api/v1/users', require('./routes/userRoutes'));
 app.use('/api/v1/resumes', require('./routes/resumeRoutes'));
+
+app.use('/api/v1/companies', require('./routes/companyRoutes'));
+
 app.post(
   '/api/v1/upload',
   profileImage.single('profileImage'),

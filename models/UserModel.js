@@ -28,12 +28,14 @@ const userSchema = new mongoose.Schema(
       enum: ['user', 'company', 'admin'],
       default: 'user',
     },
-    passwordChangedAt: Date,
+    passwordChangedAt: {
+      type: Date,
+      select: false,
+    },
     passwordResetToken: String,
     passwordResetExpires: Date,
     verify: {
       type: Boolean,
-      default: false,
     },
     verifiedToken: String,
     verifiedTokenExpires: Date,

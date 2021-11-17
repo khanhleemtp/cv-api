@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const companySchema = new mongoose.Schema(
   {
+    position: String,
     name: {
       type: String,
       require: true,
@@ -9,12 +10,20 @@ const companySchema = new mongoose.Schema(
       lowercase: true,
     },
     phone: String,
-    location: String,
-    position: String,
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point'],
+        },
+        coordinates: [Number],
+        address: String,
+      },
+    ],
     type: String,
     photo: {
       type: String,
-      default: '/user.png',
     },
     numEmployees: Number,
     status: {
