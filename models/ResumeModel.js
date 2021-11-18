@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const baseSchema = require('./resumeSections/BaseSectionSchema');
+
+cost baseSchema = require('./resumeSections/baseSectionSchema')
 const headerSchema = require('./resumeSections/headerSchema');
 const educationSchema = require('./resumeSections/educationSchema');
 const experienceSchema = require('./resumeSections/experienceSchema');
