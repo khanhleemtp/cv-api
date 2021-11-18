@@ -24,7 +24,7 @@ app.enable('trust proxy');
 
 app.use(cors());
 
-app.options('*', cors());
+// app.options('*', cors());
 // app.options('/api/v1/users/:id', cors());
 
 // Set security HTTP headers
