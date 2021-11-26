@@ -22,10 +22,7 @@ const resumeSchema = new mongoose.Schema(
       background: {
         type: String,
       },
-      fontBody: {
-        type: String,
-      },
-      fontHeading: {
+      font: {
         type: String,
       },
       layoutSize: {
@@ -37,21 +34,6 @@ const resumeSchema = new mongoose.Schema(
     },
     header: {
       type: headerSchema,
-      default: {
-        name: 'User',
-        record: 'Header',
-        title: 'IT CV',
-        email: 'exam@email.com',
-        location: '',
-        phone: '0912xxxxxx',
-        showTitle: true,
-        showPhone: true,
-        showLink: true,
-        showEmail: true,
-        showLocation: true,
-        showPhoto: true,
-        photo: '/user.jpg',
-      },
     },
     sections: [baseSchema],
   },
@@ -64,6 +46,8 @@ const resumeSchema = new mongoose.Schema(
 
 // discriminator section
 const sectionsArray = resumeSchema.path('sections');
+
+// sectionsArray.discriminator('HeaderSection', headerSchema);
 
 sectionsArray.discriminator('AchievementSection', achievementSchema);
 sectionsArray.discriminator('LanguageSection', languageSchema);

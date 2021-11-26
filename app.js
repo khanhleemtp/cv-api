@@ -74,16 +74,50 @@ app.use('/api/v1/resumes', require('./routes/resumeRoutes'));
 
 app.use('/api/v1/companies', require('./routes/companyRoutes'));
 
-app.post(
-  '/api/v1/upload',
-  profileImage.single('profileImage'),
-  (req, res, err) => {
-    try {
-      return res.send(req.file);
-    } catch (err) {
-      return res.send(400);
-    }
+app.post('/api/v1/upload', profileImage.single('photo'), (req, res, err) => {
+  try {
+    return res.send(req.file);
+  } catch (err) {
+    return res.send(400);
   }
+});
+
+const updateNestedObjectParser = (nestedUpdateObject) => {
+  const final = {};
+  Object.keys(nestedUpdateObject).forEach((k) => {
+    if (
+      typeof nestedUpdateObject[k] === 'object' &&
+      !Array.isArray(nestedUpdateObject[k])
+    ) {
+      const res = updateNestedObjectParser(nestedUpdateObject[k]);
+      Object.keys(res).forEach((a) => {
+        final[`${k}.${a}`] = res[a];
+      });
+    } else final[k] = nestedUpdateObject[k];
+  });
+  return final;
+};
+
+console.log(
+  updateNestedObjectParser({
+    a: {
+      b: {
+        c: 99,
+      },
+      e: ['def', 'ghi'],
+      d: {
+        i: {
+          l: 22,
+        },
+      },
+    },
+    o: {
+      a: 22,
+      l: {
+        i: 'ad',
+      },
+    },
+  })
 );
 
 app.all('*', (req, res, next) => {

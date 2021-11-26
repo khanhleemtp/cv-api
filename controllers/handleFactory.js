@@ -2,6 +2,22 @@ const APIFeatures = require('../utils/apiFeatures');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 
+const updateNestedObjectParser = (nestedUpdateObject) => {
+  const final = {};
+  Object.keys(nestedUpdateObject).forEach((k) => {
+    if (
+      typeof nestedUpdateObject[k] === 'object' &&
+      !Array.isArray(nestedUpdateObject[k])
+    ) {
+      const res = updateNestedObjectParser(nestedUpdateObject[k]);
+      Object.keys(res).forEach((a) => {
+        final[`${k}.${a}`] = res[a];
+      });
+    } else final[k] = nestedUpdateObject[k];
+  });
+  return final;
+};
+
 exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
@@ -15,9 +31,13 @@ exports.deleteOne = (Model) =>
     });
   });
 
-exports.updateOne = (Model, pickArr) =>
+exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
+    // console.log(req.isObject);
+
+    const data = req.isObject ? updateNestedObjectParser(req.body) : req.body;
+
+    const doc = await Model.findByIdAndUpdate(req.params.id, data, {
       new: true,
       // return newDocument
       runValidators: true,
@@ -34,7 +54,7 @@ exports.updateOne = (Model, pickArr) =>
     });
   });
 
-exports.createOne = (Model, pickArr) =>
+exports.createOne = (Model) =>
   catchAsync(async (req, res) => {
     // const newTour = new Tour({});
     // newTour.save()

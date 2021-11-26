@@ -12,7 +12,6 @@ const languageSchema = new mongoose.Schema({
         min: 0,
         max: 10,
       },
-      levelText: String,
     },
   ],
 });

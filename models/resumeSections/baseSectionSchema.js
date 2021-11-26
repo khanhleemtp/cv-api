@@ -4,8 +4,7 @@ const baseSchema = new mongoose.Schema(
   {
     enabled: Boolean,
     name: String,
-    column: Number,
-    height: Number,
+    order: Number,
   },
   { discriminatorKey: 'record', _id: false }
 );

@@ -29,6 +29,8 @@ router
   .patch(
     authController.protect,
     authController.restrictTo('admin', 'user', 'company'),
+    resumeController.uploadImage,
+    resumeController.handleAfterUpload,
     resumeController.updateResume
   );
 

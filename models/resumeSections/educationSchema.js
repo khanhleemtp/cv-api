@@ -16,11 +16,11 @@ const educationSchema = new mongoose.Schema({
         toYear: Number,
         isOngoing: Boolean,
       },
-      bullets: [String],
       showGpa: Boolean,
       showLocation: Boolean,
       showDateRange: Boolean,
       showBullets: Boolean,
+      bullets: [String],
     },
   ],
 });

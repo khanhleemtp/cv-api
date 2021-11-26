@@ -7,6 +7,7 @@ const experienceSchema = new mongoose.Schema({
       workplace: String,
       description: String,
       location: String,
+      link: String,
       dateRange: {
         fromYear: Number,
         fromMonth: Number,
@@ -14,7 +15,6 @@ const experienceSchema = new mongoose.Schema({
         toYear: Number,
         isOngoing: Boolean,
       },
-      bullets: [String],
       showTitle: Boolean,
       showCompany: Boolean,
       showDescription: Boolean,
@@ -22,6 +22,7 @@ const experienceSchema = new mongoose.Schema({
       showDateRange: Boolean,
       showBullets: Boolean,
       showLink: Boolean,
+      bullets: [String],
     },
   ],
 });

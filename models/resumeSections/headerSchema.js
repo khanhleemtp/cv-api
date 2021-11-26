@@ -2,21 +2,20 @@ const mongoose = require('mongoose');
 
 const headerSchema = new mongoose.Schema(
   {
+    title: {
+      type: String,
+    },
     name: {
       type: String,
     },
     height: {
       type: Number,
     },
-    title: {
-      type: String,
-      default: 'IT CV',
-    },
     email: {
       type: String,
       default: 'abc@gmail.com',
     },
-    location: {
+    address: {
       type: String,
     },
     phone: {
@@ -25,7 +24,6 @@ const headerSchema = new mongoose.Schema(
     link: {
       type: String,
     },
-    height: Number,
     showTitle: {
       type: Boolean,
       default: true,
@@ -42,11 +40,7 @@ const headerSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    showLocation: {
-      type: Boolean,
-      default: true,
-    },
-    uppercaseName: {
+    showAddress: {
       type: Boolean,
       default: true,
     },
