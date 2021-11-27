@@ -20,7 +20,11 @@ const educationSchema = new mongoose.Schema({
       showLocation: Boolean,
       showDateRange: Boolean,
       showBullets: Boolean,
-      bullets: [String],
+      bullets: [
+        {
+          text: String,
+        },
+      ],
     },
   ],
 });

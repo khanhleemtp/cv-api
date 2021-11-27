@@ -22,7 +22,11 @@ const experienceSchema = new mongoose.Schema({
       showDateRange: Boolean,
       showBullets: Boolean,
       showLink: Boolean,
-      bullets: [String],
+      bullets: [
+        {
+          text: String,
+        },
+      ],
     },
   ],
 });
