@@ -10,10 +10,8 @@ const educationSchema = new mongoose.Schema({
       maxGpa: Number,
       gpaText: String,
       dateRange: {
-        fromYear: Number,
-        fromMonth: Number,
-        toMonth: Number,
-        toYear: Number,
+        from: Date,
+        to: Date,
         isOngoing: Boolean,
       },
       showGpa: Boolean,

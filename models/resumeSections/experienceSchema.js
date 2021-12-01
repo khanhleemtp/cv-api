@@ -9,10 +9,8 @@ const experienceSchema = new mongoose.Schema({
       location: String,
       link: String,
       dateRange: {
-        fromYear: Number,
-        fromMonth: Number,
-        toMonth: Number,
-        toYear: Number,
+        from: Date,
+        to: Date,
         isOngoing: Boolean,
       },
       showTitle: Boolean,
