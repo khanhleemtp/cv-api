@@ -14,11 +14,9 @@ exports.uploadImage = profileImage.single('photo');
 
 exports.handleAfterUpload = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
-  console.log(req);
   const photo = req.file.location;
-  console.log(req.file.location);
   req.body.header = { photo };
-  req.isObject = true;
+  req.body.isObject = true;
   // console.log(req.body);
   next();
 });

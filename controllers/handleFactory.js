@@ -35,7 +35,9 @@ exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
     // console.log(req.isObject);
 
-    const data = req.isObject ? updateNestedObjectParser(req.body) : req.body;
+    const data = req.body.isObject
+      ? updateNestedObjectParser(req.body)
+      : req.body;
 
     const doc = await Model.findByIdAndUpdate(req.params.id, data, {
       new: true,
