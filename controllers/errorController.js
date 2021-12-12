@@ -42,7 +42,7 @@ const sendErrorProd = (err, res) => {
     // 2, Send generic message
     res.status(500).json({
       status: 'error',
-      message: 'Bạn đã làm sai gì đó 🤔',
+      message: 'Bạn đã làm sai gì đó 😐',
     });
   }
 };
