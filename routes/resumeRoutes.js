@@ -10,7 +10,11 @@ const router = express.Router({ mergeParams: true });
 // is match users/:userId/resumes
 router
   .route('/')
-  .get(resumeController.getAllResumes)
+  .get(
+    authController.protect,
+    resumeController.setUserQuery,
+    resumeController.getAllResumes
+  )
   .post(
     authController.protect,
     authController.restrictTo('user', 'admin', 'company'),

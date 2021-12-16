@@ -98,28 +98,6 @@ const updateNestedObjectParser = (nestedUpdateObject) => {
   return final;
 };
 
-console.log(
-  updateNestedObjectParser({
-    a: {
-      b: {
-        c: 99,
-      },
-      e: ['def', 'ghi'],
-      d: {
-        i: {
-          l: 22,
-        },
-      },
-    },
-    o: {
-      a: 22,
-      l: {
-        i: 'ad',
-      },
-    },
-  })
-);
-
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });

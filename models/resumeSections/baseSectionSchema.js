@@ -7,7 +7,7 @@ const baseSchema = new mongoose.Schema(
     order: Number,
     column: {
       type: Number,
-      default: 0,
+      default: 1,
     },
   },
   { discriminatorKey: 'record', _id: false }

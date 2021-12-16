@@ -10,6 +10,13 @@ exports.setUserIds = (req, res, next) => {
   next();
 };
 
+exports.setUserQuery = (req, res, next) => {
+  // Allow nested routes
+  console.log('userID', req.user.id);
+  if (req.user.id) req.query.user = req.user.id;
+  next();
+};
+
 exports.uploadImage = profileImage.single('photo');
 
 exports.handleAfterUpload = catchAsync(async (req, res, next) => {

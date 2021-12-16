@@ -11,14 +11,27 @@ const achievementSchema = require('./resumeSections/achievementSchema');
 
 const resumeSchema = new mongoose.Schema(
   {
-    title: String,
+    title: {
+      type: String,
+      default: '',
+    },
+    isPrimary: {
+      type: Boolean,
+      default: false,
+    },
     isImported: {
       type: Boolean,
       default: false,
     },
     style: {
-      layout: String,
-      colors: [String],
+      layout: {
+        type: String,
+        default: 'double',
+      },
+      colors: {
+        type: [String],
+        default: ['blue', 'gray'],
+      },
       background: {
         type: String,
       },
@@ -36,6 +49,10 @@ const resumeSchema = new mongoose.Schema(
       type: headerSchema,
     },
     sections: [baseSchema],
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
+    },
   },
   {
     toJSON: { virtuals: true },

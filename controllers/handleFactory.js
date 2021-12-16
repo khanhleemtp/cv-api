@@ -86,18 +86,18 @@ exports.getOne = (Model, popOptions) =>
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     // To allow for nested GET resumes on users (hack)
-    let filter = {};
-    if (req.params.userId) filter = { user: req.params.userId };
+    // let filter = {};
+    // if (req.params.userId) filter = { user: req.params.userId };
     // console.log(req.query);
     // TODO QUERY
-    const features = new APIFeatures(Model.find(filter), req.query)
+    const features = new APIFeatures(Model.find(), req.query)
       .filter()
       .sort()
       .limitFields()
       .paginate();
     // const doc = await features.query.explain();
     const doc = await features.query;
-    const notPanigate = new APIFeatures(Model.find(filter), req.query)
+    const notPanigate = new APIFeatures(Model.find(), req.query)
       .filter()
       .sort()
       .limitFields();

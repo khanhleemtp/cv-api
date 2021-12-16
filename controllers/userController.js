@@ -27,7 +27,6 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     );
   }
 
-  console.log(req.body);
   // 2. Filter fields allow updates
   const filteredBody = filterObj(req.body, 'name', 'email');
 
