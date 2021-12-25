@@ -51,6 +51,7 @@ const headerSchema = new mongoose.Schema(
     photoStyle: {
       type: String,
       default: 'rounded',
+      enum: ['rounded', 'square'],
     },
     photo: {
       type: String,
