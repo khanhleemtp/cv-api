@@ -1,6 +1,7 @@
 const APIFeatures = require('../utils/apiFeatures');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
+const filterObj = require('../utils/filterObj');
 
 const updateNestedObjectParser = (nestedUpdateObject) => {
   const final = {};
@@ -34,10 +35,12 @@ exports.deleteOne = (Model) =>
 exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
     // console.log(req.isObject);
+    console.log('params', req.params.id);
 
     const data = req.body.isObject
       ? updateNestedObjectParser(req.body)
       : req.body;
+    console.log('dataUpdate', data);
 
     const doc = await Model.findByIdAndUpdate(req.params.id, data, {
       new: true,
@@ -60,6 +63,18 @@ exports.createOne = (Model) =>
   catchAsync(async (req, res) => {
     // const newTour = new Tour({});
     // newTour.save()
+
+    // let data = req.body;
+    // if (allowedFields.length > 0) data = filterObj(data, ...allowedFields);
+
+    // const filterObj = (obj, ...allowedFields) => {
+    //   const newObj = {};
+    //   Object.keys(obj).forEach((el) => {
+    //     if (allowedFields.includes(el)) newObj[el] = obj[el];
+    //   });
+    //   return newObj;
+    // };
+
     const doc = await Model.create(req.body);
     // Tour.findOne({ _id: req.params.id })
 
@@ -83,24 +98,25 @@ exports.getOne = (Model, popOptions) =>
     });
   });
 
-exports.getAll = (Model) =>
+exports.getAll = (Model, parseQuery = false) =>
   catchAsync(async (req, res, next) => {
     // To allow for nested GET resumes on users (hack)
     // let filter = {};
     // if (req.params.userId) filter = { user: req.params.userId };
     // console.log(req.query);
     // TODO QUERY
-    const features = new APIFeatures(Model.find(), req.query)
+    console.log('query here', req.query);
+
+    const features = new APIFeatures(Model.find(), req.query, parseQuery)
       .filter()
       .sort()
       .limitFields()
       .paginate();
     // const doc = await features.query.explain();
     const doc = await features.query;
-    const notPanigate = new APIFeatures(Model.find(), req.query)
+    const notPanigate = new APIFeatures(Model.find(), req.query, parseQuery)
       .filter()
-      .sort()
-      .limitFields();
+      .sort();
     const total = await notPanigate.query;
 
     // TODO SEND RESPONSE

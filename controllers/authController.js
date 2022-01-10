@@ -4,19 +4,7 @@ const User = require('../models/UserModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const Email = require('../utils/email');
-
-// TODO SIGN_TOKEN
-const signToken = (id) => {
-  return jwt.sign(
-    {
-      id,
-    },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    }
-  );
-};
+const signToken = require('../utils/signToken');
 
 // TODO SEND_TOKEN
 const createSendToken = (user, statusCode, res) => {
@@ -133,6 +121,7 @@ exports.restrictTo = (...roles) => {
 };
 
 // TODO SEND_VERIFIED_TOKEN
+
 exports.sendVerifiedToken = catchAsync(async (req, res, next) => {
   // 1, Find User
   const user = await User.findOne({ email: req.body.email });
@@ -148,9 +137,7 @@ exports.sendVerifiedToken = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // 3, Send it to user's email
-  const verifyURL = `${req.protocol}://${req.get(
-    'host'
-  )}/api/v1/users/verify/${verifiedToken}`;
+  const verifyURL = `${process.env.DOMAIN_LOCAL}/verify?token=${verifiedToken}&role=${user.role}`;
   console.log(verifyURL);
   // const message = `Vui lòng ấn vào đường dẫn để xác thực tài khoản: ${verifyURL}. \n`;
   try {
@@ -302,33 +289,8 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res);
 });
 
-// TODO CHECK IS_LOGIN
-exports.isLoggedIn = async (req, res, next) => {
-  if (req.cookies.jwt) {
-    try {
-      // 1) verify token
-      const decoded = await promisify(jwt.verify)(
-        req.cookies.jwt,
-        process.env.JWT_SECRET
-      );
-
-      // 2) Check if user still exists
-      const currentUser = await User.findById(decoded.id);
-      if (!currentUser) {
-        return next();
-      }
-
-      // 3) Check if user changed password after the token was issued
-      if (currentUser.changedPasswordAfter(decoded.iat)) {
-        return next();
-      }
-
-      // THERE IS A LOGGED IN USER
-      res.locals.user = currentUser;
-      return next();
-    } catch (err) {
-      return next();
-    }
-  }
+exports.setUser = (req, res, next) => {
+  // Allow nested routes
+  if (req.user.id) req.params.user = req.user.id;
   next();
 };

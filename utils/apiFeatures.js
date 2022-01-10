@@ -1,8 +1,9 @@
 // TODO Refactoring
 class APIFeatures {
-  constructor(query, queryString) {
+  constructor(query, queryString, parse = false) {
     this.query = query;
     this.queryString = queryString;
+    this.parse = parse;
   }
   filter() {
     // 1. Filtering
@@ -19,10 +20,11 @@ class APIFeatures {
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
-    console.log(JSON.parse(queryStr));
-
+    console.log('parse', JSON.parse(queryStr));
+    console.log('queryObj', queryObj);
+    console.log('parse', this.parse);
     // update query
-    this.query = this.query.find(JSON.parse(queryStr));
+    this.query = this.query.find(this.parse ? queryObj : JSON.parse(queryStr));
     return this;
   }
 

@@ -28,7 +28,12 @@ router.get(
   userController.getMe,
   userController.getUser
 );
-router.patch('/updateMe', userController.updateMe);
+router.patch(
+  '/updateMe',
+  userController.uploadImage,
+  userController.handleAfterUpload,
+  userController.updateUser
+);
 router.delete('/deleteMe', userController.deleteMe);
 
 // TODO ADMIN_ROUTE

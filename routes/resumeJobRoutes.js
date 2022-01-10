@@ -1,22 +1,25 @@
 const express = require('express');
-const jobController = require('../controllers/jobController');
+const resumeJobController = require('../controllers/resumeJobController');
 const authController = require('../controllers/authController');
 const router = express.Router({ mergeParams: true });
 
-router.route('/').get(jobController.getAllJob).post(jobController.createJob);
+router
+  .route('/')
+  .get(resumeJobController.getAllResumeJob)
+  .post(resumeJobController.createResumeJob);
 
 router
   .route('/:id')
-  .get(jobController.getJob)
+  .get(resumeJobController.getResumeJob)
   .delete(
     authController.protect,
     authController.restrictTo('admin'),
-    jobController.deleteJob
+    resumeJobController.deleteResumeJob
   )
   .patch(
     authController.protect,
     authController.restrictTo('admin'),
-    jobController.updateJob
+    resumeJobController.updateResumeJob
   );
 
 module.exports = router;

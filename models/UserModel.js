@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       validate: [validator.isEmail, 'Vui lòng cung cấp email hợp lệ của bạn'],
     },
-    imageUrl: String,
+    photo: String,
     password: {
       type: String,
       required: [true, 'Vui lòng cung cấp mật khẩu của bạn'],
@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['user', 'company', 'admin'],
+      enum: ['user', 'employer', 'company', 'admin'],
       default: 'user',
     },
     passwordChangedAt: {
@@ -36,6 +36,11 @@ const userSchema = new mongoose.Schema(
     passwordResetExpires: Date,
     verify: {
       type: Boolean,
+      default: false,
+    },
+    isSendMail: {
+      type: Boolean,
+      default: false,
     },
     verifiedToken: String,
     verifiedTokenExpires: Date,
@@ -47,12 +52,12 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// userSchema.virtual('company', {
-//   ref: 'Company',
-//   foreignField: 'user',
-//   localField: '_id',
-//   justOne: true,
-// });
+userSchema.virtual('employer', {
+  ref: 'Employer',
+  foreignField: '_id',
+  localField: '_id',
+  justOne: true,
+});
 
 // userSchema.virtual('applies', {
 //   ref: 'Apply',

@@ -17,7 +17,7 @@ router
   )
   .post(
     authController.protect,
-    authController.restrictTo('user', 'admin', 'company'),
+    authController.restrictTo('user', 'admin', 'company', 'employer'),
     resumeController.setUserIds,
     resumeController.createResume
   );

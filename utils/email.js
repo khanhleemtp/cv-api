@@ -47,6 +47,10 @@ module.exports = class Email {
     await this.send('welcome', 'Chào mừng bạn đã đến với LD CV!');
   }
 
+  async sendEmployer() {
+    await this.send('employer', 'Chào mừng bạn đã đến với LD CV!');
+  }
+
   async sendPasswordReset() {
     await this.send(
       'passwordReset',

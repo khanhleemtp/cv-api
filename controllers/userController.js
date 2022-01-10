@@ -2,6 +2,7 @@ const User = require('../models/UserModel');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handleFactory');
+const { profileImage } = require('../utils/upload');
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -28,7 +29,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   }
 
   // 2. Filter fields allow updates
-  const filteredBody = filterObj(req.body, 'name', 'email');
+  const filteredBody = filterObj(req.body, 'name', 'email', 'photo');
 
   // 3. Update user document
 
@@ -59,6 +60,17 @@ exports.createUser = (req, res) => {
   });
 };
 
+exports.uploadImage = profileImage.single('photo');
+
+exports.handleAfterUpload = catchAsync(async (req, res, next) => {
+  if (!req.file) return next();
+  const photo = req.file.location;
+  req.params.id = req.user.id;
+  req.body.photo = photo;
+  req.body.isObject = true;
+  // console.log(req.body);
+  next();
+});
 // Do NOT update with this
 
 exports.getAllUsers = factory.getAll(User);

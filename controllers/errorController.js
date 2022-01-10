@@ -9,7 +9,8 @@ const handleObjectId = (err) => {
 
 const handleDuplicateFieldsDB = (err) => {
   let value = Object.values(err.keyValue).join(' ');
-  return new AppError(`${value} đã có, hãy nhập lại `, 400);
+  // return new AppError(`${value} đã có, hãy nhập lại `, 400);
+  return new AppError(`Thông tin đã tồn tại, hãy nhập lại`, 400);
 };
 
 const handleValidationErrorDB = (err) => {

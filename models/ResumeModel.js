@@ -17,11 +17,6 @@ const resumeSchema = new mongoose.Schema(
     },
     isPrimary: {
       type: Boolean,
-      default: false,
-    },
-    isImported: {
-      type: Boolean,
-      default: false,
     },
     style: {
       layout: {
@@ -53,6 +48,8 @@ const resumeSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: 'User',
     },
+    view: Number,
+    contact: Number,
   },
   {
     toJSON: { virtuals: true },

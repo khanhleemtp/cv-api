@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
-const xss = require('xss-clean');
+// const xss = require('xss-clean');
 const hpp = require('hpp');
 const compression = require('compression');
 
@@ -51,7 +51,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(mongoSanitize());
 
 // Data sanitization against XSS
-app.use(xss());
+// app.use(xss());
 
 // Prevent parameter pollution
 app.use(
@@ -71,6 +71,8 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1/users', require('./routes/userRoutes'));
 app.use('/api/v1/resumes', require('./routes/resumeRoutes'));
+app.use('/api/v1/employers', require('./routes/employerRoutes'));
+app.use('/api/v1/followers', require('./routes/followerRoutes'));
 
 app.use('/api/v1/companies', require('./routes/companyRoutes'));
 

@@ -6,30 +6,33 @@ const router = express.Router({ mergeParams: true });
 
 router
   .route('/')
-  .get(companyController.getAllCompany)
-  .post(companyController.createCompany);
+  .get(companyController.setQueryName, companyController.getAllCompany)
+  .post(
+    authController.protect,
+    authController.restrictTo('admin', 'employer'),
+    companyController.setHost,
+    companyController.removeStatus,
+    companyController.createCompany
+  );
 
-// router
-//   .route('/top-8-company')
-//   .get(companyController.aliasTopCompany, companyController.getAllCompanies);
+router
+  .route('/:id')
+  .get(companyController.getCompany)
 
-// router
-//   .route('/:id')
-//   .get(companyController.getCompany)
-//   .post(
-//     authController.protect,
-//     authController.restrictTo('admin'),
-//     companyController.acceptCompany
-//   )
-//   .delete(
-//     authController.protect,
-//     authController.restrictTo('admin', 'company'),
-//     companyController.deleteCompany
-//   )
-//   .patch(
-//     authController.protect,
-//     authController.restrictTo('admin', 'company'),
-//     companyController.updateCompany
-//   );
+  .delete(
+    authController.protect,
+    authController.restrictTo('admin'),
+    companyController.deleteCompany
+  )
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin', 'employer'),
+    companyController.uploadImage,
+    companyController.handleAfterUpload,
+    companyController.checkPermission,
+    companyController.removeStatus,
+    companyController.checkResponseCompany,
+    companyController.updateCompany
+  );
 
 module.exports = router;
