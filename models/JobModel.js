@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
+
 const jobSchema = new mongoose.Schema(
   {
     title: {
@@ -7,9 +9,10 @@ const jobSchema = new mongoose.Schema(
       lowercase: true,
       require: [true, 'Hãy nhập tiêu đề công việc'],
     },
+    slug: { type: String },
     type: {
       type: String,
-      enum: ['full-time', 'part-time', 'remote', 'inter'],
+      // enum: ['full-time', 'part-time', 'remote', 'inter'],
     },
     position: {
       type: String,
@@ -19,7 +22,7 @@ const jobSchema = new mongoose.Schema(
     experience: {
       type: String,
     },
-    location: [String],
+    area: [String],
     fields: [String],
     salary: {
       type: String,
@@ -29,17 +32,12 @@ const jobSchema = new mongoose.Schema(
     },
     descriptions: String,
     requirements: String,
-    tags: [
+    benefits: String,
+    skills: [
       {
         type: String,
-        trim: true,
-        lowercase: true,
       },
     ],
-    from: {
-      type: Date,
-      default: Date.now(),
-    },
     to: {
       type: Date,
       min: [Date.now(), 'Hãy nhập thời gian hợp lệ'],
@@ -56,6 +54,9 @@ const jobSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    priority: {
+      type: String,
+    },
     status: {
       type: String,
       enum: ['running, pending, finishing'],
@@ -66,66 +67,62 @@ const jobSchema = new mongoose.Schema(
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
     timestamps: true,
-    validateBeforeSave: true,
   }
 );
 
-// jobSchema.pre('save', function (next) {
-//   this.slugs = this.tags.map((item) =>
-//     slugify(item, { lower: true, locale: 'vi' })
-//   );
-//   next();
-// });
+jobSchema.pre('save', function (next) {
+  this.slug = slugify(this.title, { lower: true, locale: 'vi' });
+  next();
+});
 
 // jobSchema.pre(/^find/, function (next) {
 //   this.populate({
 //     path: 'company',
-//     select: 'company name location photo',
 //     match: {
 //       status: 'accept',
-//     },
-//     sort: {
-//       level: 1,
 //     },
 //   });
 //   next();
 // });
 
-// jobSchema.virtual('companyFrom', {
-//   ref: 'Company',
-//   foreignField: '_id',
-//   localField: 'company',
-//   justOne: true,
-// });
+jobSchema.virtual('companyInfo', {
+  ref: 'Company',
+  foreignField: '_id',
+  localField: 'company',
+  justOne: true,
+});
 
-// jobSchema.virtual('applies', {
-//   ref: 'Apply',
-//   foreignField: '_id',
-//   localField: 'job',
-//   justOne: true,
+jobSchema.pre(/^find/, function (next) {
+  // this points to current query
+  this.populate({
+    path: 'companyInfo',
+  });
+  next();
+});
+
+// jobSchema.virtual('resumeJob', {
+//   ref: 'ResumeJob',
+//   foreignField: 'job',
+//   localField: '_id',
+//   justOne: false,
 // });
 
 // get all job active
 // jobSchema.pre(/^find/, function (next) {
 //   // this points to current query
-//   this.find({
-//     to: {
-//       $gte: moment().toISOString(),
-//     },
+//   this.populate({
+//     path: 'resumeJob',
 //   });
 //   next();
 // });
 
-// jobSchema.post('findOneAndUpdate', function (doc, next) {
-//   // console.log(doc);
-//   doc.slugs = doc.tags.map((item) =>
-//     slugify(item, { lower: true, locale: 'vi' })
-//   );
-
-//   doc.save();
-//   console.log(doc);
-//   next();
-// });
+jobSchema.post('findOneAndUpdate', function (doc, next) {
+  // console.log(doc);
+  doc.slug = slugify(doc.title, { lower: true, locale: 'vi' });
+  doc.save();
+  console.log(doc);
+  next();
+});
 
 const Job = mongoose.model('Job', jobSchema);
 

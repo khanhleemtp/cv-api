@@ -24,6 +24,7 @@ class APIFeatures {
     console.log('queryObj', queryObj);
     console.log('parse', this.parse);
     // update query
+
     this.query = this.query.find(this.parse ? queryObj : JSON.parse(queryStr));
     return this;
   }

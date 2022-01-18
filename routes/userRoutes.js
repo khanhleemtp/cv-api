@@ -22,14 +22,13 @@ router.patch('/updateMyPassword', authController.updatePassword);
 // merge route
 // router.use('/:userId/resumes', resumeRouter);
 
-router.get(
-  '/me',
-  authController.protect,
-  userController.getMe,
-  userController.getUser
-);
+router.get('/me', userController.getMe, userController.getUser);
 router.patch(
   '/updateMe',
+  (req, res, next) => {
+    if (!req.params.id) req.params.id = req.user.id;
+    next();
+  },
   userController.uploadImage,
   userController.handleAfterUpload,
   userController.updateUser

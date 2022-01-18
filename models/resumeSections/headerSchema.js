@@ -4,6 +4,7 @@ const headerSchema = new mongoose.Schema(
   {
     title: {
       type: String,
+      trim: true,
     },
     name: {
       type: String,

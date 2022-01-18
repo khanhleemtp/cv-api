@@ -6,17 +6,20 @@ const employerSchema = new mongoose.Schema(
     fb: String,
     location: {
       type: String,
-      enum: ['ha-noi', 'ho-chi-minh', 'da-nang', 'other'],
-      default: 'ha-noi',
+      // enum: ['ha-noi', 'ho-chi-minh', 'da-nang', 'other'],
+      // default: 'ha-noi',
     },
-    isActive: Boolean,
+    active: {
+      type: Boolean,
+      default: false,
+    },
     companyName: {
       type: String,
     },
     position: {
       type: String,
-      enum: ['nhan-vien', 'giam-doc', 'truong-phong', 'other'],
-      default: 'nhan-vien',
+      // enum: ['nhan-vien', 'giam-doc', 'truong-phong', 'other'],
+      // default: 'nhan-vien',
     },
     _id: {
       type: mongoose.Types.ObjectId,
@@ -34,19 +37,19 @@ const employerSchema = new mongoose.Schema(
   }
 );
 
-// employerSchema.virtual('userHost', {
-//   ref: 'User',
-//   foreignField: '_id',
-//   localField: '_id',
-//   justOne: true,
-// });
+employerSchema.virtual('userInfo', {
+  ref: 'User',
+  foreignField: '_id',
+  localField: '_id',
+  justOne: true,
+});
 
 employerSchema.pre(/^find/, function (next) {
   this.populate([
-    // {
-    //   path: 'userHost',
-    //   select: 'name email',
-    // },
+    {
+      path: 'userInfo',
+      select: 'name email',
+    },
     {
       path: 'company',
     },

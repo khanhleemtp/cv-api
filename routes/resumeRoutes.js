@@ -11,8 +11,8 @@ const router = express.Router({ mergeParams: true });
 router
   .route('/')
   .get(
-    authController.protect,
-    resumeController.setUserQuery,
+    resumeController.setQueryTitle,
+    resumeController.setQuerySkill,
     resumeController.getAllResumes
   )
   .post(

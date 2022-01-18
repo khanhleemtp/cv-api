@@ -71,6 +71,9 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1/users', require('./routes/userRoutes'));
 app.use('/api/v1/resumes', require('./routes/resumeRoutes'));
+app.use('/api/v1/jobs', require('./routes/jobRoutes'));
+app.use('/api/v1/resume-jobs', require('./routes/resumeJobRoutes'));
+
 app.use('/api/v1/employers', require('./routes/employerRoutes'));
 app.use('/api/v1/followers', require('./routes/followerRoutes'));
 

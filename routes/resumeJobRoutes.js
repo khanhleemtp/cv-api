@@ -5,7 +5,7 @@ const router = express.Router({ mergeParams: true });
 
 router
   .route('/')
-  .get(resumeJobController.getAllResumeJob)
+  .get(resumeJobController.formatFindJob, resumeJobController.getAllResumeJob)
   .post(resumeJobController.createResumeJob);
 
 router
@@ -13,12 +13,12 @@ router
   .get(resumeJobController.getResumeJob)
   .delete(
     authController.protect,
-    authController.restrictTo('admin'),
+    authController.restrictTo('admin', 'employer'),
     resumeJobController.deleteResumeJob
   )
   .patch(
     authController.protect,
-    authController.restrictTo('admin'),
+    authController.restrictTo('admin', 'employer'),
     resumeJobController.updateResumeJob
   );
 

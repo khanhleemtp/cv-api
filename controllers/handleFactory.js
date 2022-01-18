@@ -117,6 +117,7 @@ exports.getAll = (Model, parseQuery = false) =>
     const notPanigate = new APIFeatures(Model.find(), req.query, parseQuery)
       .filter()
       .sort();
+
     const total = await notPanigate.query;
 
     // TODO SEND RESPONSE

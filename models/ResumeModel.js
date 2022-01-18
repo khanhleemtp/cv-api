@@ -8,12 +8,17 @@ const referenceSchema = require('./resumeSections/referenceSchema');
 const summarySchema = require('./resumeSections/summarySchema');
 const technologySchema = require('./resumeSections/technologySchema');
 const achievementSchema = require('./resumeSections/achievementSchema');
+const slugify = require('slugify');
 
 const resumeSchema = new mongoose.Schema(
   {
+    slug: {
+      type: String,
+    },
     title: {
       type: String,
       default: '',
+      trim: true,
     },
     isPrimary: {
       type: Boolean,
@@ -48,7 +53,12 @@ const resumeSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: 'User',
     },
-    view: Number,
+    views: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Company',
+      },
+    ],
     contact: Number,
   },
   {
@@ -72,6 +82,32 @@ sectionsArray.discriminator('SummarySection', summarySchema);
 sectionsArray.discriminator('TechnologySection', technologySchema);
 
 // Query
+resumeSchema.pre('save', function (next) {
+  this.slug = slugify(this.header.title, { lower: true, locale: 'vi' });
+  next();
+});
+
+resumeSchema.post('findOneAndUpdate', function (doc, next) {
+  // console.log(doc);
+  doc.slug = slugify(doc.header.title, { lower: true, locale: 'vi' });
+  doc.save();
+  console.log(doc);
+  next();
+});
+
+// resumeSchema.virtual('applies', {
+//   ref: 'ResumeJob',
+//   foreignField: 'resume',
+//   localField: '_id',
+//   justOne: false,
+// });
+
+// resumeSchema.pre(/^find/, function (next) {
+//   this.populate({
+//     path: 'applies',
+//   });
+//   next();
+// });
 
 const ResumeModel = mongoose.model('Resume', resumeSchema);
 

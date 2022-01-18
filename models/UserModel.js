@@ -32,6 +32,12 @@ const userSchema = new mongoose.Schema(
       type: Date,
       select: false,
     },
+    savedJobs: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Job',
+      },
+    ],
     passwordResetToken: String,
     passwordResetExpires: Date,
     verify: {
@@ -59,6 +65,13 @@ userSchema.virtual('employer', {
   justOne: true,
 });
 
+userSchema.virtual('listCv', {
+  ref: 'Resume',
+  foreignField: 'user',
+  localField: '_id',
+  justOne: false,
+});
+
 // userSchema.virtual('applies', {
 //   ref: 'Apply',
 //   foreignField: 'user',
@@ -84,11 +97,14 @@ userSchema.pre('save', function (next) {
 
 userSchema.pre(/^find/, function (next) {
   // this points to current query
-  this.find({
-    active: {
-      $ne: false,
+  this.populate([
+    {
+      path: 'savedJobs',
     },
-  });
+    {
+      path: 'listCv',
+    },
+  ]);
   next();
 });
 

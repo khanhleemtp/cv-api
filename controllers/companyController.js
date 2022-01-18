@@ -4,6 +4,7 @@ const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 const omit = require('lodash/omit');
 const { profileImage } = require('../utils/upload');
+const slugify = require('slugify');
 
 const factory = require('./handleFactory');
 
@@ -32,7 +33,10 @@ exports.checkResponseCompany = catchAsync(async (req, res, next) => {
   if (req.body.status === 'reject') {
   }
   if (req.body.status === 'accept') {
-    await Employer.findByIdAndUpdate(req.body.host, { company: req.params.id });
+    await Employer.findByIdAndUpdate(req.body.host, {
+      company: req.params.id,
+      active: true,
+    });
   }
   next();
 });
@@ -40,10 +44,10 @@ exports.checkResponseCompany = catchAsync(async (req, res, next) => {
 exports.setQueryName = (req, res, next) => {
   // Allow nested routes
 
-  if (req.query.name) {
-    const s = req.query.name;
+  if (req.query.slug) {
+    const s = slugify(req.query.slug, { lower: true, locale: 'vi' });
     const regex = new RegExp(s, 'i'); // i for case insensitive
-    req.query.name = { $regex: regex };
+    req.query.slug = { $regex: regex };
   }
 
   next();
