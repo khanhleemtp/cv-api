@@ -9,10 +9,6 @@ const resumeJobSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: 'Resume',
     },
-    received: {
-      type: String,
-      enum: ['theo-doi', 'tiep-nhan', 'de-nghi'],
-    },
     response: {
       type: String,
       enum: ['phu-hop', 'hen-phong-van', 'nhan-viec', 'tu-choi'],

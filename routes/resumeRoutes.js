@@ -13,6 +13,7 @@ router
   .get(
     resumeController.setQueryTitle,
     resumeController.setQuerySkill,
+    resumeController.suggestJob,
     resumeController.getAllResumes
   )
   .post(

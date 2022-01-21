@@ -6,7 +6,12 @@ const router = express.Router({ mergeParams: true });
 router
   .route('/')
   .get(jobController.setQueryTitle, jobController.getAllJob)
-  .post(jobController.createJob);
+  .post(
+    authController.protect,
+    authController.restrictTo('employer'),
+    jobController.setEmployer,
+    jobController.createJob
+  );
 
 router
   .route('/:id')

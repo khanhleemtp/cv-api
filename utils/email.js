@@ -3,11 +3,12 @@ const pug = require('pug');
 const htmlToText = require('html-to-text');
 
 module.exports = class Email {
-  constructor(user, url) {
+  constructor(user, url, message = '') {
     this.to = user.email;
     this.firstName = user.name.split(' ')[0];
     this.url = url;
-    this.from = `LD Khánh <${process.env.EMAIL_FROM}>`;
+    this.from = `LD Job <${process.env.EMAIL_FROM}>`;
+    this.message = message;
   }
 
   newTransport() {
@@ -28,6 +29,7 @@ module.exports = class Email {
       firstName: this.firstName,
       url: this.url,
       subject,
+      message: this.message,
     });
 
     // 2) Define email options
@@ -63,5 +65,12 @@ module.exports = class Email {
       'verify',
       'Mã thông báo xác thực tài khoản của bạn (chỉ có giá trị trong 10 phút)'
     );
+  }
+
+  async sendNotificationApply() {
+    await this.send('apply', 'Thông báo ứng tuyển');
+  }
+  async sendResponseApply() {
+    await this.send('response', 'Phản hồi ứng viên');
   }
 };

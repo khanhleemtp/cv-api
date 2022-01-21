@@ -2,8 +2,8 @@ const Company = require('../models/CompanyModel');
 const Employer = require('../models/EmployerModel');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
-const omit = require('lodash/omit');
 const { profileImage } = require('../utils/upload');
+const omit = require('lodash/omit');
 const slugify = require('slugify');
 
 const factory = require('./handleFactory');

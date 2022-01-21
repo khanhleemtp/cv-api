@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const NotificationSchema = new mongoose.Schema(
+const notificationSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Types.ObjectId,
@@ -8,12 +8,26 @@ const NotificationSchema = new mongoose.Schema(
     message: {
       type: String,
     },
+    link: {
+      type: String,
+    },
+    view: {
+      type: Boolean,
+      default: false,
+    },
+    notifyType: {
+      type: 'String',
+      enum: ['system', 'user', 'employer', 'company'],
+      default: 'system',
+    },
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
-const Notification = mongoose.model('Notification', NotificationSchema);
+const Notification = mongoose.model('Notification', notificationSchema);
 
 module.exports = Notification;

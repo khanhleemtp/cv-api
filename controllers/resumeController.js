@@ -54,6 +54,25 @@ exports.setQueryTitle = (req, res, next) => {
   next();
 };
 
+exports.suggestJob = (req, res, next) => {
+  if (req.query.sk && req.query.ti) {
+    const s = slugify(req.query.ti, { lower: true, locale: 'vi' });
+    const regex = new RegExp(s, 'i'); // i for case insensitive
+    req.query['$or'] = [
+      {
+        ['sections.items.tags.text']: {
+          $in: Array.from(String(req.query.sk).split(',')),
+        },
+      },
+      {
+        slug: { $regex: regex },
+      },
+    ];
+    req.query = omit(req.query, 'sk', 'ti');
+  }
+  next();
+};
+
 exports.createResume = factory.createOne(Resume);
 
 exports.getResume = factory.getOne(Resume);

@@ -61,6 +61,18 @@ const jobSchema = new mongoose.Schema(
       type: String,
       enum: ['running, pending, finishing'],
     },
+    savedCv: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Resume',
+      },
+    ],
+    invitedCv: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Resume',
+      },
+    ],
   },
   {
     //virtuals properties not save in db but caculate
@@ -92,11 +104,33 @@ jobSchema.virtual('companyInfo', {
   justOne: true,
 });
 
+jobSchema.virtual('listInvitedCv', {
+  ref: 'Resume',
+  foreignField: '_id',
+  localField: 'invitedCv',
+  justOne: false,
+});
+
+jobSchema.virtual('listSavedCv', {
+  ref: 'Resume',
+  foreignField: '_id',
+  localField: 'savedCv',
+  justOne: false,
+});
+
 jobSchema.pre(/^find/, function (next) {
   // this points to current query
-  this.populate({
-    path: 'companyInfo',
-  });
+  this.populate([
+    {
+      path: 'companyInfo',
+    },
+    {
+      path: 'listInvitedCv',
+    },
+    {
+      path: 'listSavedCv',
+    },
+  ]);
   next();
 });
 

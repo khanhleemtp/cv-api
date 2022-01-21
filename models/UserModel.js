@@ -72,6 +72,13 @@ userSchema.virtual('listCv', {
   justOne: false,
 });
 
+userSchema.virtual('notifications', {
+  ref: 'Notification',
+  foreignField: 'user',
+  localField: '_id',
+  justOne: false,
+});
+
 // userSchema.virtual('applies', {
 //   ref: 'Apply',
 //   foreignField: 'user',
@@ -103,6 +110,9 @@ userSchema.pre(/^find/, function (next) {
     },
     {
       path: 'listCv',
+    },
+    {
+      path: 'notifications',
     },
   ]);
   next();
