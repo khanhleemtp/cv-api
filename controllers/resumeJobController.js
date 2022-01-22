@@ -1,12 +1,124 @@
 const ResumeJob = require('../models/ResumeJobModel');
+const Job = require('../models/JobModel');
+const Company = require('../models/CompanyModel');
+const mongoose = require('mongoose');
 const Employer = require('../models/EmployerModel');
 const Notification = require('../models/NotificationModel');
 const Email = require('../utils/email');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const User = require('../models/UserModel');
+const Moment = require('moment');
+const MomentRange = require('moment-range');
+
+const moment = MomentRange.extendMoment(Moment);
+
+const keyBy = require('lodash/keyBy');
 
 const factory = require('./handleFactory');
+
+exports.getResumeInCompany = catchAsync(async (req, res, next) => {
+  const jobIds = await Job.aggregate([
+    {
+      $match: { company: mongoose.Types.ObjectId(req.query.company) },
+    },
+    {
+      $project: {
+        _id: 1,
+      },
+    },
+  ]);
+  const ids = jobIds.map((job) => mongoose.Types.ObjectId(job._id));
+  console.log(ids);
+  let data = await ResumeJob.aggregate([
+    {
+      $match: {
+        job: { $in: ids },
+        created_at: {
+          $gte: 'Mon May 30 18:47:00 +0000 2015',
+          $lt: 'Sun May 30 20:40:36 +0000 2010',
+        },
+      },
+    },
+    {
+      $group: {
+        _id: '$response',
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+
+  res.status(201).json({
+    status: 'success',
+    data,
+    ids,
+  });
+});
+
+exports.getInfoChartJob = catchAsync(async (req, res, next) => {
+  var start = new Date(req.query.from);
+  var end = new Date(req.query.to);
+
+  const day = moment.range(start, end);
+  const diff = day.diff('days');
+  console.log(diff);
+
+  let step = 1;
+  if (diff > 6) step = diff / 6;
+
+  const rangeDate = Array.from(day.by('day', { step }));
+
+  let arrDate = rangeDate.map((date) => date.toISOString());
+
+  let finalData = await Promise.all(
+    arrDate.map(async (date) => {
+      const info = await ResumeJob.aggregate([
+        {
+          $match: {
+            job: mongoose.Types.ObjectId(req.query.id),
+            createdAt: {
+              $gte: moment(date).startOf('day').toDate(),
+              $lte: moment(date).endOf('day').toDate(),
+            },
+          },
+        },
+        {
+          $group: {
+            _id: '$response',
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+      console.log(keyBy(info, '_id'));
+      return {
+        [moment(date).format('DD-MM')]: keyBy(info, '_id'),
+      };
+    })
+  );
+
+  // let data = await ResumeJob.aggregate([
+  //   {
+  //     $match: {
+  //       job: mongoose.Types.ObjectId(req.query.id),
+  //       createdAt: {
+  //         $gte: new Date(req.query.from),
+  //         $lte: new Date(req.query.to),
+  //       },
+  //     },
+  //   },
+  //   {
+  //     $group: {
+  //       _id: '$response',
+  //       count: { $sum: 1 },
+  //     },
+  //   },
+  // ]);
+
+  res.status(201).json({
+    status: 'success',
+    data: finalData,
+  });
+});
 
 exports.formatFindJob = (req, res, next) => {
   if (req.query.resume && req.query.resume.in) {

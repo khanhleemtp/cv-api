@@ -3,6 +3,9 @@ const resumeJobController = require('../controllers/resumeJobController');
 const authController = require('../controllers/authController');
 const router = express.Router({ mergeParams: true });
 
+router.route('/cv-in-company').get(resumeJobController.getResumeInCompany);
+router.route('/info-job-chart').get(resumeJobController.getInfoChartJob);
+
 router
   .route('/')
   .get(resumeJobController.formatFindJob, resumeJobController.getAllResumeJob)

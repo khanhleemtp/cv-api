@@ -11,7 +11,14 @@ const resumeJobSchema = new mongoose.Schema(
     },
     response: {
       type: String,
-      enum: ['phu-hop', 'hen-phong-van', 'nhan-viec', 'tu-choi'],
+      enum: [
+        'chua-phan-hoi',
+        'phu-hop',
+        'hen-phong-van',
+        'nhan-viec',
+        'tu-choi',
+      ],
+      default: 'chua-phan-hoi',
     },
   },
   {

@@ -8,6 +8,7 @@ const router = express.Router({ mergeParams: true });
 // GET /users/1234/resumes
 // GET /users/234fad4/resumes/123dc
 // is match users/:userId/resumes
+
 router
   .route('/')
   .get(
