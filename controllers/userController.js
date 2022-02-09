@@ -1,4 +1,6 @@
 const User = require('../models/UserModel');
+const Notification = require('../models/NotificationModel');
+
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handleFactory');
@@ -16,6 +18,20 @@ exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();
 };
+
+exports.viewNoti = catchAsync(async (req, res, next) => {
+  const newNoti = await Notification.updateMany(
+    { user: req.user.id, view: false },
+    { $set: { view: true } },
+    { new: true, runValidators: false }
+  );
+  console.log(newNoti);
+
+  res.status(200).json({
+    status: 'success',
+    data: newNoti.ok,
+  });
+});
 
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 1. Create error if user POST password data

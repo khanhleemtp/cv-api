@@ -17,6 +17,8 @@ router.get('/verify/:token', authController.verifiedToken);
 // TODO PRIVATE_ROUTE
 // protect all routes afer middleware
 router.use(authController.protect);
+router.patch('/viewNoti', userController.viewNoti);
+
 router.patch('/updateMyPassword', authController.updatePassword);
 
 // merge route
