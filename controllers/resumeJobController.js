@@ -20,7 +20,10 @@ const factory = require('./handleFactory');
 exports.getResumeInCompany = catchAsync(async (req, res, next) => {
   const jobIds = await Job.aggregate([
     {
-      $match: { company: mongoose.Types.ObjectId(req.query.company) },
+      $match: {
+        company: mongoose.Types.ObjectId(req.query.company),
+        isPublic: true,
+      },
     },
     {
       $project: {
@@ -34,9 +37,8 @@ exports.getResumeInCompany = catchAsync(async (req, res, next) => {
     {
       $match: {
         job: { $in: ids },
-        created_at: {
-          $gte: 'Mon May 30 18:47:00 +0000 2015',
-          $lt: 'Sun May 30 20:40:36 +0000 2010',
+        createdAt: {
+          $lte: new Date(),
         },
       },
     },
@@ -51,7 +53,7 @@ exports.getResumeInCompany = catchAsync(async (req, res, next) => {
   res.status(201).json({
     status: 'success',
     data,
-    ids,
+    totalJob: ids.length,
   });
 });
 
